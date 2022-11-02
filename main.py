@@ -46,9 +46,8 @@ def formula():
     for x in l:
         sum += x
 
-    lt = sum / len(l)
-    out = lt * h
-    print(out)
+    lt = sum / 4
+    print(lt * h)
 
 
 def test():
