@@ -3,6 +3,7 @@ from matplotlib.figure import Figure
 from tkinter import *
 from tkinter.ttk import *
 import matplotlib
+import matplotlib.pyplot as plt
 matplotlib.use("TkAgg")
 
 
@@ -32,9 +33,37 @@ def clicked():
         label.configure(text="Error, enter numbers")
 
 
+def draw(x, y):
+    plt.plot(x, y)
+    plt.show()
+
+
+def formula():
+    # A = l * h
+    l = [158, 9, 9, 3]
+    h = [1, 2, 4, 8]
+    sum = 0
+    for x in l:
+        sum += x
+
+    lt = sum / len(l)
+    out = lt * h
+    print(out)
+
+
+def test():
+    # test wzoru A = l * h
+    l = [158, 9, 9, 3]
+    h = [1, 2, 4, 8]
+    draw(l, h)
+
+
 bt = Button(window, text="Multiply", command=clicked)
 # bt.grid(column=2, row=2)
 bt.place(relx=0.5, rely=0.3, anchor="center")
+
+debug_bt = Button(window, text="Debug", command=test)
+debug_bt.place(relx=0.5, rely=0.4, anchor="center")
 
 inpx = Entry(window)
 inpx.place(relx=0.5, rely=0.15, anchor="center")
