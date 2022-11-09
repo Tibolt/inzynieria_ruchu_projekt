@@ -67,12 +67,12 @@ debug_bt.place(relx=0.5, rely=0.4, anchor="center")
 inpx = Entry(window)
 inpx.place(relx=0.5, rely=0.15, anchor="center")
 labelx = Label(window, text="x")
-labelx.place(relx=0.4, rely=0.15, anchor="center")
+labelx.place(relx=0.35, rely=0.15, anchor="center")
 
 inpy = Entry(window)
 inpy.place(relx=0.5, rely=0.20, anchor="center")
 labely = Label(window, text="y")
-labely.place(relx=0.4, rely=0.20, anchor="center")
+labely.place(relx=0.35, rely=0.20, anchor="center")
 
 
 window.mainloop()
