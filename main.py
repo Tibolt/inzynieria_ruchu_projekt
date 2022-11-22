@@ -61,7 +61,7 @@ labely.place(relx=0.35, rely=0.20, anchor="center")
 
 # Actual program
 def select_file_time():
-    global l_file
+    global l_file, time_file_label
     filetypes = (("text files", "*.txt"), ("All files", "*.*"))
 
     filename = fd.askopenfilename(
@@ -74,7 +74,7 @@ def select_file_time():
 
 
 def select_file_numbers():
-    global h_file
+    global h_file, numbers_file_label
     filetypes = (("text files", "*.txt"), ("All files", "*.*"))
 
     filename = fd.askopenfilename(
@@ -94,13 +94,13 @@ def show():
         num = formula.open_numbers(h_file, 1)
         formula.calculate(l, h, num)
     except:
-        openNewWindow("Error", "200x100", "Error with input files")
+        OpenNewWindow("Error", "200x100", "Error with input files")
         # DEBUG
         print("Error with files")
 
 
 # function to open a new window
-def openNewWindow(title, size, text):
+def OpenNewWindow(title, size, text):
 
     # Toplevel object which will
     # be treated as a new window
@@ -117,18 +117,58 @@ def openNewWindow(title, size, text):
     Label(newWindow, text=text).pack()
 
 
-# open button
-open_button = Button(window, text="Open time.txt", command=lambda: select_file_time())
-open_button.place(relx=0.2, rely=0.35, anchor="center")
-time_file_label = Label(window, text="Empty")
-time_file_label.place(relx=0.2, rely=0.4, anchor="center")
+def NewTextArea(title, size_x, size_y, pos_x, pos_y, text):
+    newText = Text(window, height=size_y, width=size_x)
+    newLabel = Label(newText, text=text)
 
-open_button = Button(window, text="Open  numbers.txt", command=lambda: select_file_numbers())
-open_button.place(relx=0.5, rely=0.35, anchor="center")
-numbers_file_label = Label(window, text="Empty")
-numbers_file_label.place(relx=0.5, rely=0.4, anchor="center")
+    newText.place(relx=pos_x, rely=pos_y, anchor="center")
+    newLabel.place(relx=pos_x - 0.3, rely=pos_y, anchor="center")
 
-open_button = Button(window, text="show plot", command=show)
-open_button.place(relx=0.35, rely=0.45, anchor="center")
+
+def Page1():
+    global time_file_label, numbers_file_label
+    page = Frame(window)
+    page.grid()
+    Label(window, text="Back to page 2").grid(row=0)
+    Button(window, text="To page 2", command=ChangePage).grid(row=1)
+
+    open_button = Button(window, text="Open time.txt", command=lambda: select_file_time())
+    open_button.place(relx=0.2, rely=0.35, anchor="center")
+    time_file_label = Label(window, text="Empty")
+    time_file_label.place(relx=0.2, rely=0.4, anchor="center")
+
+    open_button = Button(window, text="Open  numbers.txt", command=lambda: select_file_numbers())
+    open_button.place(relx=0.5, rely=0.35, anchor="center")
+    numbers_file_label = Label(window, text="Empty")
+    numbers_file_label.place(relx=0.5, rely=0.4, anchor="center")
+
+    open_button = Button(window, text="show plot", command=show)
+    open_button.place(relx=0.35, rely=0.45, anchor="center")
+
+    NewTextArea("Test_Area", 20, 10, 0.8, 0.3, "Test text ...")
+
+    new_window_button = Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ..."))
+    new_window_button.place(relx=0.2, rely=0.7, anchor="center")
+
+def Page2():
+    page = Frame(window)
+    page.grid()
+    Label(window, text="Back to page 1").grid(row=0)
+    Button(window, text="To page 1", command=ChangePage).grid(row=2, column=1)
+
+
+def ChangePage():
+    global page_num
+    for page in window.winfo_children():
+        page.destroy()
+    if page_num == 1:
+        Page2()
+        page_num = 2
+    elif page_num == 2:
+        Page1()
+        page_num = 1
+
+page_num = 1
+Page1()
 
 window.mainloop()
