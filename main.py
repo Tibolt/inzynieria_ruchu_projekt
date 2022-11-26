@@ -13,10 +13,11 @@ matplotlib.use("TkAgg")
 
 window = Tk()
 window.geometry("800x600")
+# window.grid_rowconfigure(0, weight=1)
+window.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
 
-
-label = Label(window, text="Test Program")
-label.place(relx=0.5, rely=0.1, anchor="center")
+# label = Label(window, text="Test Program")
+# label.place(relx=0.5, rely=0.1, anchor="center")
 
 
 # For testing and learning
@@ -44,19 +45,18 @@ def draw(x, y):
     plt.show()
 
 
-bt = Button(window, text="Multiply", command=clicked)
-# bt.grid(column=2, row=2)
-bt.place(relx=0.5, rely=0.25, anchor="center")
+# bt = Button(window, text="Multiply", command=clicked)
+# bt.place(relx=0.5, rely=0.25, anchor="center")
 
-inpx = Entry(window)
-inpx.place(relx=0.5, rely=0.15, anchor="center")
-labelx = Label(window, text="x")
-labelx.place(relx=0.35, rely=0.15, anchor="center")
+# inpx = Entry(window)
+# inpx.place(relx=0.5, rely=0.15, anchor="center")
+# labelx = Label(window, text="x")
+# labelx.place(relx=0.35, rely=0.15, anchor="center")
 
-inpy = Entry(window)
-inpy.place(relx=0.5, rely=0.20, anchor="center")
-labely = Label(window, text="y")
-labely.place(relx=0.35, rely=0.20, anchor="center")
+# inpy = Entry(window)
+# inpy.place(relx=0.5, rely=0.20, anchor="center")
+# labely = Label(window, text="y")
+# labely.place(relx=0.35, rely=0.20, anchor="center")
 
 
 # Actual program
@@ -118,43 +118,46 @@ def OpenNewWindow(title, size, text):
 
 
 def NewTextArea(title, size_x, size_y, pos_x, pos_y, text):
-    newText = Text(window, height=size_y, width=size_x)
-    newLabel = Label(newText, text=text)
+    t = Text(window, height=size_y, width=size_x, state="disabled")
+    t.grid(row=pos_y, column=pos_x,)
+    txt = """Texting end
+        New line
+    """
+    t.insert(END, txt)
 
-    newText.place(relx=pos_x, rely=pos_y, anchor="center")
-    newLabel.place(relx=pos_x - 0.3, rely=pos_y, anchor="center")
 
 
-def Page1():
+def Page2():
     global time_file_label, numbers_file_label
     page = Frame(window)
     page.grid()
-    Label(window, text="Back to page 2").grid(row=0)
-    Button(window, text="To page 2", command=ChangePage).grid(row=1)
+    window.grid_columnconfigure((0,1,2,3,4,5),weight=1)
 
-    open_button = Button(window, text="Open time.txt", command=lambda: select_file_time())
-    open_button.place(relx=0.2, rely=0.35, anchor="center")
-    time_file_label = Label(window, text="Empty")
-    time_file_label.place(relx=0.2, rely=0.4, anchor="center")
+    Button(window, text="Open time.txt", command=lambda: select_file_time()).grid(row=4, column=1)
+    time_file_label = Label(window, text="Empty").grid(row=5, column=1)
 
-    open_button = Button(window, text="Open  numbers.txt", command=lambda: select_file_numbers())
-    open_button.place(relx=0.5, rely=0.35, anchor="center")
-    numbers_file_label = Label(window, text="Empty")
-    numbers_file_label.place(relx=0.5, rely=0.4, anchor="center")
+    Button(window, text="Open  numbers.txt", command=lambda: select_file_numbers()).grid(row=4, column=3)
+    numbers_file_label = Label(window, text="Empty").grid(row=5, column=3)
 
-    open_button = Button(window, text="show plot", command=show)
-    open_button.place(relx=0.35, rely=0.45, anchor="center")
+    Button(window, text="show plot", command=show).grid(row=6, column=2)
 
-    NewTextArea("Test_Area", 20, 10, 0.8, 0.3, "Test text ...")
+    NewTextArea("Test_Area", 20, 10, 4, 6, "Test text ...")
 
-    new_window_button = Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ..."))
-    new_window_button.place(relx=0.2, rely=0.7, anchor="center")
+    Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=7, column=2)
 
-def Page2():
+    Label(window, text="Back to page 2").grid(row=8, column=0)
+    Button(window, text="To page 2", command=ChangePage).grid(row=9, column=0)
+
+
+def Page1():
     page = Frame(window)
     page.grid()
-    Label(window, text="Back to page 1").grid(row=0)
-    Button(window, text="To page 1", command=ChangePage).grid(row=2, column=1)
+
+    label = Label(window, text=" Main Menu")
+    label.grid(row=1,column=3)
+    # label.grid_columnconfigure(1, weight=1)
+    Button(window, text="To page 1", command=ChangePage).grid(row=2, column=3)
+    NewTextArea("Test_Area", 20, 10, 5, 2, "Main menu text ")
 
 
 def ChangePage():
@@ -167,6 +170,7 @@ def ChangePage():
     elif page_num == 2:
         Page1()
         page_num = 1
+
 
 page_num = 1
 Page1()
