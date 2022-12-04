@@ -124,6 +124,20 @@ def show_average():
         # DEBUG
         print(e)
 
+
+def show_version2():
+    global h_file, text_time
+    global h, con_time
+    try:
+        h = text_time.get(1.0, END).split()[0]
+        con_time = formula.open_numbers(h_file,0)
+        formula.calculate_v2(con_time, int(h))
+    except Exception as e:
+        OpenNewWindow("Error", "200x100", "Error with input files")
+        # DEBUG
+        print(e)
+
+
 # function to open a new window
 def OpenNewWindow(title, size, text):
 
@@ -184,6 +198,7 @@ def Page1():
     # label.grid_columnconfigure(1, weight=1)
     Button(window, text="To page 2", command=lambda: ChangePage(2)).grid(row=2, column=3)
     Button(window, text="To page 3", command=lambda: ChangePage(3)).grid(row=3, column=3)
+    Button(window, text="To page 3", command=lambda: ChangePage(4)).grid(row=4, column=3)
     NewTextArea("Test_Area", 20, 10, 5, 2, "Main menu text ")
 
 
@@ -194,8 +209,10 @@ def ChangePage(x):
         Page1()
     elif x == 2:
         Page2()
-    elif x ==3:
+    elif x == 3:
         Page3()
+    elif x == 4:
+        Page4()
         
 
 def Page3():
@@ -212,6 +229,31 @@ def Page3():
     numbers_file_label.grid(row=5, column=3)
 
     Button(window, text="show plot", command=show_average).grid(row=6, column=2)
+
+    NewTextArea("Test_Area", 20, 10, 4, 6, "Test text ...")
+
+    Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=7, column=2)
+
+    Label(window, text="Back to page 1").grid(row=8, column=0)
+    Button(window, text="To page 1", command=lambda: ChangePage(1)).grid(row=9, column=0)
+
+def Page4():
+    global numbers_file_label, text_time
+    page = Frame(window)
+    page.grid()
+
+    # Button(window, text="Open avg_time.txt", command=lambda: select_file_average_time()).grid(row=4, column=1)
+    text_time = Text(window, height=1, width=3 )
+    text_time.grid(row=4, column=1)
+    text_time.insert(END, 1)
+
+    Label(window, text="Type time of observationg in minutes").grid(row=5, column=1)
+
+    Button(window, text="Open connection_time.txt", command=lambda: select_file_numbers()).grid(row=4, column=3)
+    numbers_file_label = Label(window, text="Empty")
+    numbers_file_label.grid(row=5, column=3)
+
+    Button(window, text="show plot", command=show_version2).grid(row=6, column=2)
 
     NewTextArea("Test_Area", 20, 10, 4, 6, "Test text ...")
 

@@ -24,8 +24,10 @@ def open_time(name):
 
 
 def calculate(l, h, num):
+    #Średnie natęzenie ruchu
     # A = l * h
-    # suma wszystkich czasow rozmow / dlugosc obserwacji np 1h
+    # l - sredia liczba zgloszen na jednostke czasu
+    # h - sredni czas trwania polaczenia
 
     # l -czas trwania polaczenia w ciagu doby, l = [158, 9, 9, 3, 11, 89]
     # h - kolejne minuty doby ,h = [1, 2, 4, 8, 11, 14]
@@ -69,5 +71,27 @@ def calculate_avg(avg, h, num):
     # plt.xticks(xticks)
     plt.show()
 
-# wartosc chwilowa intensywnosci wywolan w poszczegolnych minutach - wzor:
-# num[h] / sum(num)
+
+def calculate_v2(con_time, h):
+    # suma wszystkich czasow rozmow / dlugosc obserwacji np 1h
+    # wartosc chwilowa intensywnosci wywolan w poszczegolnych minutach - wzor:
+    # gdzie suma od 1 do liczby zestawionych polaczen w przedziale czasu h
+    # sum(connection_time) / h
+    sum = 0
+    for x in con_time:
+        sum += x
+
+    observation_time = []
+    for i in range(1, 60):
+        observation_time.append(i)
+        
+    out = sum / h
+
+    # TODO: FIX x and y must have same first dimension, but have shapes (59,) and (40,) error 
+
+    plt.plot(np.asarray(observation_time), np.asarray(con_time))
+    plt.xlabel("czas obserwacji [min]")
+    plt.ylabel("czas polaczenia [s]")
+    plt.show()
+    print(out)
+    return out
