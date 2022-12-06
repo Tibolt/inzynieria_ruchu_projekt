@@ -159,7 +159,8 @@ def OpenNewWindow(title, size, text):
 def NewTextArea(title, size_x, size_y, pos_x, pos_y, text):
     t = Text(window, height=size_y, width=size_x, state="disabled")
     t.grid(row=pos_y, column=pos_x,)
-    txt = """Texting end
+    txt = """
+        Texting end
         New line
     """
     t.insert(END, txt)
@@ -181,7 +182,12 @@ def Page2():
 
     Button(window, text="show plot", command=show).grid(row=6, column=2)
 
-    NewTextArea("Test_Area", 20, 10, 4, 6, "Test text ...")
+    txt = """
+        Testing end
+        New line
+    """
+    descr = Label(window, text=txt)
+    descr.grid(row=2, column=4)
 
     Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=7, column=2)
 
@@ -196,10 +202,16 @@ def Page1():
     label = Label(window, text=" Main Menu")
     label.grid(row=1,column=3)
     # label.grid_columnconfigure(1, weight=1)
-    Button(window, text="To page 2", command=lambda: ChangePage(2)).grid(row=2, column=3)
-    Button(window, text="To page 3", command=lambda: ChangePage(3)).grid(row=3, column=3)
-    Button(window, text="To page 3", command=lambda: ChangePage(4)).grid(row=4, column=3)
-    NewTextArea("Test_Area", 20, 10, 5, 2, "Main menu text ")
+    Button(window, text="To page 2", command=lambda: ChangePage(2)).grid(row=3, column=3)
+    Button(window, text="To page 3", command=lambda: ChangePage(3)).grid(row=4, column=3)
+    Button(window, text="To page 3", command=lambda: ChangePage(4)).grid(row=5, column=3)
+
+    txt = """
+        Testing end
+        New line
+    """
+    descr = Label(window, text=txt)
+    descr.grid(row=2, column=5,)
 
 
 def ChangePage(x):
@@ -230,7 +242,12 @@ def Page3():
 
     Button(window, text="show plot", command=show_average).grid(row=6, column=2)
 
-    NewTextArea("Test_Area", 20, 10, 4, 6, "Test text ...")
+    txt = """
+    Testing end
+        New line
+    """
+    descr = Label(window, text=txt)
+    descr.grid(row=2, column=5,)
 
     Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=7, column=2)
 
@@ -255,7 +272,12 @@ def Page4():
 
     Button(window, text="show plot", command=show_version2).grid(row=6, column=2)
 
-    NewTextArea("Test_Area", 20, 10, 4, 6, "Test text ...")
+    txt = """
+        Testing end
+        New line
+    """
+    descr = Label(window, text=txt)
+    descr.grid(row=2, column=5,)
 
     Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=7, column=2)
 
