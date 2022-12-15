@@ -44,11 +44,21 @@ def calculate(l, h, num):
     out = np.asarray(num) * lt
     hours = np.asanyarray(h) / 60
 
+    # srednia ilosc wywolan
+    connections_sum = 0
+    for x in num:
+        connections_sum += x
+    
+    connections_avg = connections_sum / len(num)
+    result = connections_avg * lt
+        
+
     plt.plot(hours, out)
     plt.xlabel("kolejne godziny doby")
     plt.ylabel("sredni czas * ilosc wywolan")
     plt.xticks([0, 4, 8, 12, 16, 20, 24])
     plt.show()
+    print(result)
 
 # wartosc chwilowa intensywnosci wywolan w poszczegolnych minutach - wzor:
 # num[h] / sum(num)
@@ -82,7 +92,7 @@ def calculate_v2(con_time, h):
         sum += x
 
     observation_time = []
-    for i in range(1, 60):
+    for i in range(1, len(con_time)+1):
         observation_time.append(i)
         
     out = sum / h
@@ -93,5 +103,6 @@ def calculate_v2(con_time, h):
     plt.xlabel("czas obserwacji [min]")
     plt.ylabel("czas polaczenia [s]")
     plt.show()
+    print(sum)
     print(out)
     return out
