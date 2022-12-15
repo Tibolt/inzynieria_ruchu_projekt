@@ -3,9 +3,7 @@ from matplotlib.figure import Figure
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import filedialog as fd
-from tkinter.messagebox import showinfo
 import matplotlib
-import matplotlib.pyplot as plt
 import formula
 import os
 
@@ -15,48 +13,6 @@ window = Tk()
 window.geometry("800x600")
 # window.grid_rowconfigure(0, weight=1)
 window.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
-
-# label = Label(window, text="Test Program")
-# label.place(relx=0.5, rely=0.1, anchor="center")
-
-
-# For testing and learning
-def clicked():
-    try:
-        x = float(inpx.get())
-        y = float(inpy.get())
-        output = x * y
-        label.configure(text=str(output))
-        figure = Figure(figsize=(4, 3), dpi=100)
-        plot = figure.add_subplot(1, 1, 1)
-
-        plot.plot(x, y, color="red", marker="o", linestyle="")
-
-        canvas = FigureCanvasTkAgg(figure, window)
-        canvas.get_tk_widget().place(relx=0.5, rely=0.7, anchor="center")
-        # plt.plot([0, inpx.get()], [0, inpy.get()])
-        # plt.show()
-    except:
-        label.configure(text="Error, enter numbers")
-
-
-def draw(x, y):
-    plt.plot(x, y)
-    plt.show()
-
-
-# bt = Button(window, text="Multiply", command=clicked)
-# bt.place(relx=0.5, rely=0.25, anchor="center")
-
-# inpx = Entry(window)
-# inpx.place(relx=0.5, rely=0.15, anchor="center")
-# labelx = Label(window, text="x")
-# labelx.place(relx=0.35, rely=0.15, anchor="center")
-
-# inpy = Entry(window)
-# inpy.place(relx=0.5, rely=0.20, anchor="center")
-# labely = Label(window, text="y")
-# labely.place(relx=0.35, rely=0.20, anchor="center")
 
 
 # Actual program
@@ -99,13 +55,15 @@ def select_file_average_time():
 
 
 def show():
-    global l_file, h_file
+    global l_file, h_file, result_label
     global l, h, num
     try:
         l = formula.open_time(l_file)
         h = formula.open_numbers(h_file, 0)
         num = formula.open_numbers(h_file, 1)
-        formula.calculate(l, h, num)
+        result = formula.calculate(l, h, num)
+        result_txt = "Wynik: " +str(result)
+        result_label.config(text=result_txt)
     except:
         OpenNewWindow("Error", "200x100", "Error with input files")
         # DEBUG
@@ -186,45 +144,69 @@ def Page1():
     label = Label(window, text=" Main Menu")
     label.grid(row=1,column=3)
     # label.grid_columnconfigure(1, weight=1)
-    Button(window, text="To page 2", command=lambda: ChangePage(2)).grid(row=3, column=3)
-    Button(window, text="To page 3", command=lambda: ChangePage(3)).grid(row=4, column=3)
-    Button(window, text="To page 3", command=lambda: ChangePage(4)).grid(row=5, column=3)
+    Button(window, text="Średnia natężenia ruchu", command=lambda: ChangePage(2)).grid(row=3, column=3)
+    Button(window, text="Średnia natęzenia ruchu 2", command=lambda: ChangePage(3)).grid(row=4, column=3)
+    Button(window, text="Wartość chwilowa intensywności wywołań", command=lambda: ChangePage(4)).grid(row=5, column=3)
 
     txt = """
-        Aplikacja do wyswietlenia
-        sredniego czasu ruchu telekom.
+        Aplikacja do wyświetlenia i obliczenia
+        średniego czasu ruchu telekom.
+        
     """
     descr = Label(window, text=txt)
     descr.grid(row=2, column=5,)
+
+    instruction_txt = """
+        Rozszerzona instrukcja ...
+        ...
+        ...
+        ...
+        Opis aplikacji ...
+    """
+    Button(window, text="Więcej...", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt)).grid(row=3, column=5)
  
 
 def Page2():
-    global time_file_label, numbers_file_label
+    global time_file_label, numbers_file_label, result_label
     page = Frame(window)
     page.grid()
 
-    Button(window, text="Open time.txt", command=lambda: select_file_time()).grid(row=4, column=1)
+    label = Label(window, text="Średnie natęzenie ruchu")
+    label.grid(row=1, column=3)
+
+    spacer1 = Label(window, text="")
+    spacer1.grid(row=2, column=0)
+
+    Button(window, text="Open time.txt", command=lambda: select_file_time()).grid(row=3, column=1)
     time_file_label = Label(window, text="Empty")
-    time_file_label.grid(row=5, column=1)
+    time_file_label.grid(row=4, column=1)
 
-    Button(window, text="Open  numbers.txt", command=select_file_numbers).grid(row=4, column=3)
+    Button(window, text="Open  numbers.txt", command=select_file_numbers).grid(row=3, column=3)
     numbers_file_label = Label(window, text="Empty")
-    numbers_file_label.grid(row=5, column=3)
+    numbers_file_label.grid(row=4, column=3)
 
-    Button(window, text="show plot", command=show).grid(row=6, column=2)
+    Button(window, text="show plot", command=show).grid(row=5, column=2)
+
+    result_label = Label(window, text="Wynik: ")
+    result_label.grid(row=6, column=2)
 
     txt = """
-        Srednie natezenie ruchu telekom
+        Średnie natezenie ruchu telekom
         Wzor: A = lambda * h
-            gdzie: l - sredia liczba zgloszen na jednostke czasu
-                   h - sredni czas trwania polaczenia
+        gdzie: 
+            lambda - średnia liczba zgloszen na jednostke czasu
+            h - średni czas trwania polaczenia
 
-        Za pomoca przyciskow wybrac pliki
+        Za pomoca przycisków wybrac pliki
     """
     descr = Label(window, text=txt)
-    descr.grid(row=2, column=4)
+    descr.grid(row=5, column=4)
 
-    Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=7, column=2)
+    Button(window, text="Więcej ...", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ..."))\
+        .grid(row=6, column=4)
+
+    spacer2 = Label(window, text="")
+    spacer2.grid(row=7, column=0, pady=120)
 
     Label(window, text="Back to page 1").grid(row=8, column=0)
     Button(window, text="To page 1", command=lambda: ChangePage(1)).grid(row=9, column=0)
@@ -235,28 +217,39 @@ def Page3():
     page = Frame(window)
     page.grid()
 
-    Button(window, text="Open avg_time.txt", command=lambda: select_file_average_time()).grid(row=4, column=1)
+    label = Label(window, text="Średnie natęzenie ruchu 2")
+    label.grid(row=1,column=3)
+
+    spacer1 = Label(window, text="")
+    spacer1.grid(row=2, column=0)
+
+    Button(window, text="Open avg_time.txt", command=lambda: select_file_average_time()).grid(row=3, column=1)
     average_time_file_label = Label(window, text="Empty")
-    average_time_file_label.grid(row=5, column=1)
+    average_time_file_label.grid(row=4, column=1)
 
-    Button(window, text="Open  numbers.txt", command=lambda: select_file_numbers()).grid(row=4, column=3)
+    Button(window, text="Open  numbers.txt", command=lambda: select_file_numbers()).grid(row=3, column=3)
     numbers_file_label = Label(window, text="Empty")
-    numbers_file_label.grid(row=5, column=3)
+    numbers_file_label.grid(row=4, column=3)
 
-    Button(window, text="show plot", command=show_average).grid(row=6, column=2)
+    Button(window, text="show plot", command=show_average).grid(row=5, column=2)
 
     txt = """
         Srednie natezenie ruchu telekom
         Wzor: A = lambda * h
-            gdzie: l - sredia liczba zgloszen w danej minucie 
-                   h - sredni czas trwania polaczenia
+        gdzie: 
+            lambda - średnia liczba zgloszen na jednostke czasu 
+            h - czas trwania połączenia w danej minucie
 
         Za pomoca przyciskow wybrac pliki
     """
     descr = Label(window, text=txt)
-    descr.grid(row=2, column=5,)
+    descr.grid(row=5, column=4,)
 
-    Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=7, column=2)
+    Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ..."))\
+        .grid(row=6, column=4)
+
+    spacer2 = Label(window, text="")
+    spacer2.grid(row=7, column=0, pady=120)
 
     Label(window, text="Back to page 1").grid(row=8, column=0)
     Button(window, text="To page 1", command=lambda: ChangePage(1)).grid(row=9, column=0)
@@ -266,18 +259,24 @@ def Page4():
     page = Frame(window)
     page.grid()
 
+    label = Label(window, text="Wzór 2")
+    label.grid(row=1, column=3)
+
+    spacer1 = Label(window, text="")
+    spacer1.grid(row=2, column=0)
+
     # Button(window, text="Open avg_time.txt", command=lambda: select_file_average_time()).grid(row=4, column=1)
     text_time = Text(window, height=1, width=3 )
-    text_time.grid(row=4, column=1)
-    text_time.insert(END, 1)
+    text_time.grid(row=3, column=1)
+    text_time.insert(END, "1")
 
-    Label(window, text="Type time of observationg in minutes").grid(row=5, column=1)
+    Label(window, text="Czas obserwacji - w minutach (liczba całkowita)").grid(row=4, column=1)
 
-    Button(window, text="Open connection_time.txt", command=lambda: select_file_numbers()).grid(row=4, column=3)
+    Button(window, text="Open connection_time.txt", command=lambda: select_file_numbers()).grid(row=3, column=3)
     numbers_file_label = Label(window, text="Empty")
-    numbers_file_label.grid(row=5, column=3)
+    numbers_file_label.grid(row=4, column=3)
 
-    Button(window, text="show plot", command=show_version2).grid(row=6, column=2)
+    Button(window, text="show plot", command=show_version2).grid(row=5, column=2)
 
     txt = """
         Wartosc chwilowa intensywnosci wywolan
@@ -287,9 +286,13 @@ def Page4():
         I wpisac liczbe calkowita czasu obserwacji
     """
     descr = Label(window, text=txt)
-    descr.grid(row=2, column=5,)
+    descr.grid(row=5, column=4)
 
-    Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=7, column=2)
+    Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ..."))\
+        .grid(row=6, column=4)
+
+    spacer2 = Label(window, text="")
+    spacer2.grid(row=7, column=0, pady=120)
 
     Label(window, text="Back to page 1").grid(row=8, column=0)
     Button(window, text="To page 1", command=lambda: ChangePage(1)).grid(row=9, column=0)

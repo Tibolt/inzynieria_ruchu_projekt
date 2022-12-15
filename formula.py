@@ -51,7 +51,7 @@ def calculate(l, h, num):
     
     connections_avg = connections_sum / len(num)
     result = connections_avg * lt
-        
+
 
     plt.plot(hours, out)
     plt.xlabel("kolejne godziny doby")
@@ -59,6 +59,7 @@ def calculate(l, h, num):
     plt.xticks([0, 4, 8, 12, 16, 20, 24])
     plt.show()
     print(result)
+    return result
 
 # wartosc chwilowa intensywnosci wywolan w poszczegolnych minutach - wzor:
 # num[h] / sum(num)
@@ -97,12 +98,14 @@ def calculate_v2(con_time, h):
         
     out = sum / h
 
+    # TODO: Zapytac o wykres, co rysowac
     # TODO: FIX x and y must have same first dimension, but have shapes (59,) and (40,) error 
 
     plt.plot(np.asarray(observation_time), np.asarray(con_time))
+    plt.xlim([0, h])
     plt.xlabel("czas obserwacji [min]")
     plt.ylabel("czas polaczenia [s]")
     plt.show()
-    print(sum)
-    print(out)
+    print("SUM: " + str(sum))
+    print("OUT: " + str(out))
     return out
