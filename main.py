@@ -11,7 +11,7 @@ matplotlib.use("TkAgg")
 
 window = Tk()
 window.geometry("800x600")
-# window.grid_rowconfigure(0, weight=1)
+window.minsize(800, 600)
 window.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
 
 
@@ -206,7 +206,7 @@ def Page2():
         .grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
-    spacer2.grid(row=7, column=0, pady=120)
+    spacer2.grid(row=7, column=0, pady=100)
 
     Label(window, text="Back to page 1").grid(row=8, column=0)
     Button(window, text="To page 1", command=lambda: ChangePage(1)).grid(row=9, column=0)
@@ -245,11 +245,10 @@ def Page3():
     descr = Label(window, text=txt)
     descr.grid(row=5, column=4,)
 
-    Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ..."))\
-        .grid(row=6, column=4)
+    Button(window, text="new window ", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
-    spacer2.grid(row=7, column=0, pady=120)
+    spacer2.grid(row=7, column=0, pady=100)
 
     Label(window, text="Back to page 1").grid(row=8, column=0)
     Button(window, text="To page 1", command=lambda: ChangePage(1)).grid(row=9, column=0)
@@ -269,8 +268,14 @@ def Page4():
     text_time = Text(window, height=1, width=3 )
     text_time.grid(row=3, column=1)
     text_time.insert(END, "1")
+    
+    desc = """
+    Czas obserwacji
+    w minuatch 
+    (liczba calkowita)
+    """
 
-    Label(window, text="Czas obserwacji - w minutach (liczba całkowita)").grid(row=4, column=1)
+    Label(window, text=desc, width=10).grid(row=4, column=1, ipadx=30)
 
     Button(window, text="Open connection_time.txt", command=lambda: select_file_numbers()).grid(row=3, column=3)
     numbers_file_label = Label(window, text="Empty")
@@ -292,7 +297,7 @@ def Page4():
         .grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
-    spacer2.grid(row=7, column=0, pady=120)
+    spacer2.grid(row=7, column=0, pady=80)
 
     Label(window, text="Back to page 1").grid(row=8, column=0)
     Button(window, text="To page 1", command=lambda: ChangePage(1)).grid(row=9, column=0)
