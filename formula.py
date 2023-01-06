@@ -68,8 +68,7 @@ def calculate_avg(avg, h, num):
     # ilosc wywolan jakie zarejstrowano w danej minucie doby
     # lambda
     # num = [2.38095e-05, 7.14286e-05, 2.38095e-05, 2.38095e-05, 2.38095e-05, 4.7619e-05]
-    # avg - srenid czas rozmow w danej minucie - array
-    # out = np.multiply(np.asarray(num), np.asarray(avg))
+    # avg - sredni czas rozmow w danej minucie - array
     out = np.asarray(num) * np.asarray(avg)
     hours = np.asanyarray(h) / 60
 
@@ -82,6 +81,22 @@ def calculate_avg(avg, h, num):
     # plt.xticks(xticks)
     plt.show()
 
+    sum = 0
+    for x in avg:
+        sum += x
+
+    # sredni czas trwania polaczenia
+    lt = sum / len(avg)
+
+    # srednia ilosc wywolan
+    connections_sum = 0
+    for x in num:
+        connections_sum += x
+
+    connections_avg = connections_sum / len(num)
+    result = connections_avg * lt
+    print(result)
+    return result
 
 def calculate_v2(con_time, h):
     # suma wszystkich czasow rozmow / dlugosc obserwacji np 1h
@@ -101,11 +116,6 @@ def calculate_v2(con_time, h):
     # TODO: Zapytac o wykres, co rysowac
     # TODO: FIX x and y must have same first dimension, but have shapes (59,) and (40,) error 
 
-    plt.plot(np.asarray(observation_time), np.asarray(con_time))
-    plt.xlim([0, h])
-    plt.xlabel("czas obserwacji [min]")
-    plt.ylabel("czas polaczenia [s]")
-    plt.show()
     print("SUM: " + str(sum))
     print("OUT: " + str(out))
     return out
