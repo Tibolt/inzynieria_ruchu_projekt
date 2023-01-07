@@ -237,6 +237,9 @@ def Page3():
 
     Button(window, text="Oblicz", command=show_average).grid(row=5, column=2)
 
+    result_label_p3 = Label(window, text="Wynik: ")
+    result_label_p3.grid(row=6, column=2)
+
     txt = """
                 Średnie natężenie ruchu telekomunikacyjnego
                         Wzór: A = lambda * h
