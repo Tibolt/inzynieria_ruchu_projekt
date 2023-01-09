@@ -10,6 +10,7 @@ import os
 matplotlib.use("TkAgg")
 
 window = Tk()
+window.title("Kalkulator średniej wartości czasu ruchu telekomunkacjynego")
 window.geometry("800x600")
 window.minsize(800, 600)
 window.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
@@ -113,6 +114,8 @@ def OpenNewWindow(title, size, text):
 
     # sets the geometry of toplevel
     newWindow.geometry(size)
+    min_size = size.split("x")
+    newWindow.minsize(min_size[0], min_size[1])
 
     # A Label widget to show in toplevel
     Label(newWindow, text=text).pack()
@@ -146,28 +149,41 @@ def Page1():
     page.grid()
 
     label = Label(window, text="Menu główne")
-    label.grid(row=1,column=3, pady=20)
+    label.grid(row=1, column=3, pady=20)
     # label.grid_columnconfigure(1, weight=1)
-    Button(window, text="Średnia natężenia ruchu", command=lambda: ChangePage(2)).grid(row=3, column=3, pady=10)
-    Button(window, text="Średnia natęzenia ruchu 2", command=lambda: ChangePage(3)).grid(row=4, column=3, pady=10)
-    Button(window, text="Wartość chwilowa intensywności wywołań", command=lambda: ChangePage(4)).grid(row=5, column=3, pady=10)
+    Button(window, text="Średnie natężenia ruchu", command=lambda: ChangePage(2)).grid(row=2, column=3, pady=10, ipadx=5, ipady=5)
+    Button(window, text="Średnie natęzenia ruchu 2", command=lambda: ChangePage(3)).grid(row=3, column=3, pady=10, ipadx=5, ipady=5)
+    Button(window, text="Wartość chwilowa intensywności wywołań", command=lambda: ChangePage(4)).grid(row=4, column=3, pady=10, ipadx=5, ipady=5)
 
     txt = """
         Aplikacja do wyświetlenia i obliczenia
         średniego czasu ruchu telekom.
+        Program potrafi obliczyć i narysować wykres
+        średniego czasu. 
+        W menu można wybrać wzór:
+        1 przycisk - średnia liczba zgłoszen i średni
+            czas trwania połączenia
+        2 przycisk - średnia liczba zgłoszen i czas
+            trwania połączenia w danej minucie
+        3 przycisk - wartośc chwilowa
+    
         
     """
-    descr = Label(window, text=txt)
-    descr.grid(row=2, column=5,)
+    descr = Label(window, text=txt, borderwidth=3, relief="groove")
+    descr.grid(row=2, column=5, ipadx=10, rowspan=3)
 
     instruction_txt = """
-        Rozszerzona instrukcja ...
-        ...
-        ...
-        ...
-        Opis aplikacji ...
+        Średnia wartość ruchu telekomunikacyjnego
+        to iloczyn średniego czasu trwania połączenia
+        i średniej ilości zgłoszeń. Jednostką jest erlang,
+        dla danego systemu telekomunikacyjnego 
+        składającego się z 1 linii 
+        i czasu obserwacji równego 1 godzinie, jeśli linia 
+        ta zajęta jest całą godzinę, 
+        to natężenie ruchu wynosi 1 erlang.
     """
-    Button(window, text="Więcej...", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt)).grid(row=3, column=5, pady=10)
+    Button(window, text="Więcej...", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt))\
+        .grid(row=5, column=5, pady=10)
  
 
 def Page2():
@@ -205,8 +221,24 @@ def Page2():
     """
     descr = Label(window, text=txt, borderwidth=3, relief="groove")
     descr.grid(row=5, column=4, ipadx=10)
-
-    Button(window, text="Więcej ...", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ..."))\
+    instruction_txt = """
+            Instrukcja:
+        1 plik w formacie txt 
+            w kolumnie wpisać średni czas
+            np: 
+                23
+                51
+        2 plik w formacie txt
+            w pierwszej kolumnie wpisać 
+            daną minute,
+            w drugiej kolumnie wpisać średnią 
+            liczbe zgłoszeń w tej minucie.
+            Kolumny odzielić tabulatorem.
+            np: 
+                1   510
+                3   670
+        """
+    Button(window, text="Więcej ...", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt))\
         .grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
@@ -249,7 +281,7 @@ def Page3():
 
         Za pomocą przycisków wybrać pliki
     """
-    descr = Label(window, text=txt)
+    descr = Label(window, text=txt, borderwidth=3, relief="groove")
     descr.grid(row=5, column=4,)
 
     Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=6, column=4)
@@ -300,7 +332,7 @@ def Page4():
         Za pomoca przycisków wybrać pliki
         I wpisać liczbę calkowitą czasu obserwacji
     """
-    descr = Label(window, text=txt)
+    descr = Label(window, text=txt, borderwidth=3, relief="groove")
     descr.grid(row=5, column=4)
 
     Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=6, column=4)
