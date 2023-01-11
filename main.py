@@ -15,6 +15,7 @@ window.geometry("800x600")
 window.minsize(800, 600)
 window.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
 
+l_file, h_file, avg_file, connection_file = None, None, None, None
 
 # Actual program
 def select_file_time():
@@ -24,10 +25,10 @@ def select_file_time():
     filename = fd.askopenfilename(
         title="Open a file", initialdir=os.pardir, filetypes=filetypes
     )
-    l_file = filename
     # check if filename is not empty, user could decide to not pick file
-    if type(filename) == str:
+    if filename:
         time_file_label.config(text=os.path.basename(filename))
+        l_file = filename
 
 
 def select_file_numbers():
@@ -37,9 +38,10 @@ def select_file_numbers():
     filename = fd.askopenfilename(
         title="Open a file", initialdir=os.pardir, filetypes=filetypes
     )
-    h_file = filename
-    if type(filename) == str:
+    # check if filename is not empty, user could decide to not pick file
+    if filename:
         numbers_file_label.config(text=os.path.basename(filename))
+        h_file = filename
 
 
 def select_file_average_time():
@@ -49,11 +51,23 @@ def select_file_average_time():
     filename = fd.askopenfilename(
         title="Open a file", initialdir=os.pardir, filetypes=filetypes
     )
-    avg_file = filename
     # check if filename is not empty, user could decide to not pick file
-    if type(filename) == str:
+    if filename:
         average_time_file_label.config(text=os.path.basename(filename))
+        avg_file = filename
 
+
+def select_connection_time():
+    global connection_file, connection_file_label
+    filetypes = (("text files", "*.txt"), ("All files", "*.*"))
+
+    filename = fd.askopenfilename(
+        title="Open a file", initialdir=os.pardir, filetypes=filetypes
+    )
+    # check if filename is not empty, user could decide to not pick file
+    if filename:
+        connection_file_label.config(text=os.path.basename(filename))
+        connection_file = filename
 
 def show():
     global l_file, h_file, result_label
@@ -87,11 +101,11 @@ def show_average():
 
 
 def show_version2():
-    global h_file, text_time, result_label_p4
+    global connection_file, text_time, result_label_p4
     global h, con_time
     try:
         h = text_time.get(1.0, END).split()[0]
-        con_time = formula.open_numbers(h_file,0)
+        con_time = formula.open_numbers(connection_file,0)
         result = round(formula.calculate_v2(con_time, int(h)), 3)
         result_txt = "Wynik: " + str(result)
         result_label_p4.config(text=result_txt)
@@ -187,7 +201,7 @@ def Page1():
  
 
 def Page2():
-    global time_file_label, numbers_file_label, result_label
+    global time_file_label, numbers_file_label, result_label, l_file, h_file
     page = Frame(window)
     page.grid()
 
@@ -197,13 +211,20 @@ def Page2():
     spacer1 = Label(window, text="")
     spacer1.grid(row=2, column=0)
 
+
     Button(window, text="Otwórz time.txt", command=lambda: select_file_time()).grid(row=3, column=1)
     time_file_label = Label(window, text="Pusty")
     time_file_label.grid(row=4, column=1)
 
+    if l_file:
+        time_file_label.config(text=os.path.basename(l_file))
+
     Button(window, text="Otwórz  numbers.txt", command=select_file_numbers).grid(row=3, column=3)
     numbers_file_label = Label(window, text="Pusty")
     numbers_file_label.grid(row=4, column=3)
+
+    if h_file:
+        numbers_file_label.config(text=os.path.basename(h_file))
 
     Button(window, text="Pokaż wykres", command=show).grid(row=5, column=2)
 
@@ -249,7 +270,7 @@ def Page2():
 
 
 def Page3():
-    global average_time_file_label, numbers_file_label, result_label_p3
+    global average_time_file_label, numbers_file_label, result_label_p3, h_file, avg_file
     page = Frame(window)
     page.grid()
 
@@ -263,9 +284,14 @@ def Page3():
     average_time_file_label = Label(window, text="Pusty")
     average_time_file_label.grid(row=4, column=1)
 
+    if avg_file:
+       average_time_file_label.config(text=os.path.basename(avg_file))
     Button(window, text="Otwórz  numbers.txt", command=lambda: select_file_numbers()).grid(row=3, column=3)
     numbers_file_label = Label(window, text="Pusty")
     numbers_file_label.grid(row=4, column=3)
+
+    if h_file:
+        numbers_file_label.config(text=os.path.basename(h_file))
 
     Button(window, text="Oblicz", command=show_average).grid(row=5, column=2)
 
@@ -310,7 +336,7 @@ def Page3():
     Button(window, text="Menu", command=lambda: ChangePage(1)).grid(row=9, column=0)
 
 def Page4():
-    global numbers_file_label, text_time, result_label_p4
+    global connection_file_label, text_time, result_label_p4, connection_file
     page = Frame(window)
     page.grid()
 
@@ -333,9 +359,12 @@ def Page4():
 
     Label(window, text=desc, width=10).grid(row=4, column=1, ipadx=30)
 
-    Button(window, text="Otwórz connection_time.txt", command=lambda: select_file_numbers()).grid(row=3, column=3)
-    numbers_file_label = Label(window, text="Pusty")
-    numbers_file_label.grid(row=4, column=3)
+    Button(window, text="Otwórz connection_time.txt", command=lambda: select_connection_time()).grid(row=3, column=3)
+    connection_file_label = Label(window, text="Pusty")
+    connection_file_label.grid(row=4, column=3)
+
+    if connection_file:
+        connection_file_label.config(text=os.path.basename(connection_file))
 
     Button(window, text="Oblicz", command=show_version2).grid(row=5, column=2)
 
@@ -369,6 +398,7 @@ def Page4():
 
     Label(window, text="Wróć do menu głównego").grid(row=8, column=0)
     Button(window, text="Menu", command=lambda: ChangePage(1)).grid(row=9, column=0)
+
 
 
 Page1()

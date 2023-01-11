@@ -55,10 +55,9 @@ def calculate(l, h, num):
 
     plt.plot(hours, out)
     plt.xlabel("kolejne godziny doby")
-    plt.ylabel("sredni czas * ilosc wywolan")
+    plt.ylabel("natężenie ruchu")
     plt.xticks([0, 4, 8, 12, 16, 20, 24])
     plt.show()
-    print(result)
     return result
 
 # wartosc chwilowa intensywnosci wywolan w poszczegolnych minutach - wzor:
@@ -74,7 +73,7 @@ def calculate_avg(avg, h, num):
 
     plt.plot(hours, out)
     plt.xlabel("kolejne godziny doby")
-    plt.ylabel("sredni czas * ilosc wywolan")
+    plt.ylabel("natężenie ruchu")
     # xticks = []
     # for i in range(hours[0], hours[-1:], 6):
     #     xticks.append(int(i))
@@ -95,7 +94,6 @@ def calculate_avg(avg, h, num):
 
     connections_avg = connections_sum / len(num)
     result = connections_avg * lt
-    print(result)
     return result
 
 def calculate_v2(con_time, h):
@@ -116,6 +114,4 @@ def calculate_v2(con_time, h):
     # TODO: Zapytac o wykres, co rysowac
     # TODO: FIX x and y must have same first dimension, but have shapes (59,) and (40,) error 
 
-    print("SUM: " + str(sum))
-    print("OUT: " + str(out))
     return out
