@@ -22,7 +22,7 @@ def select_file_time():
     filetypes = (("text files", "*.txt"), ("All files", "*.*"))
 
     filename = fd.askopenfilename(
-        title="Open a file", initialdir="~", filetypes=filetypes
+        title="Open a file", initialdir=os.pardir, filetypes=filetypes
     )
     l_file = filename
     # check if filename is not empty, user could decide to not pick file
@@ -35,7 +35,7 @@ def select_file_numbers():
     filetypes = (("text files", "*.txt"), ("All files", "*.*"))
 
     filename = fd.askopenfilename(
-        title="Open a file", initialdir="~", filetypes=filetypes
+        title="Open a file", initialdir=os.pardir, filetypes=filetypes
     )
     h_file = filename
     if type(filename) == str:
@@ -47,7 +47,7 @@ def select_file_average_time():
     filetypes = (("text files", "*.txt"), ("All files", "*.*"))
 
     filename = fd.askopenfilename(
-        title="Open a file", initialdir="~", filetypes=filetypes
+        title="Open a file", initialdir=os.pardir, filetypes=filetypes
     )
     avg_file = filename
     # check if filename is not empty, user could decide to not pick file
@@ -62,11 +62,11 @@ def show():
         l = formula.open_time(l_file)
         h = formula.open_numbers(h_file, 0)
         num = formula.open_numbers(h_file, 1)
-        result = formula.calculate(l, h, num)
+        result = round(formula.calculate(l, h, num), 3)
         result_txt = "Wynik: " + str(result)
         result_label.config(text=result_txt)
     except:
-        OpenNewWindow("Error", "200x100", "Error with input files")
+        OpenNewWindow("Error", "200x100", "Błędne pliki/dane")
         # DEBUG
         print("Error with files")
 
@@ -77,11 +77,11 @@ def show_average():
         avg = formula.open_numbers(avg_file,0)
         h = formula.open_numbers(h_file, 0)
         num = formula.open_numbers(h_file, 1)
-        result = formula.calculate_avg(avg, h, num)
+        result = round(formula.calculate_avg(avg, h, num), 3)
         result_txt = "Wynik: " + str(result)
         result_label_p3.config(text=result_txt)
     except Exception as e:
-        OpenNewWindow("Error", "200x100", "Error with input files")
+        OpenNewWindow("Error", "200x100", "Błędne pliki/dane")
         # DEBUG
         print(e)
 
@@ -92,11 +92,11 @@ def show_version2():
     try:
         h = text_time.get(1.0, END).split()[0]
         con_time = formula.open_numbers(h_file,0)
-        result = formula.calculate_v2(con_time, int(h))
+        result = round(formula.calculate_v2(con_time, int(h)), 3)
         result_txt = "Wynik: " + str(result)
         result_label_p4.config(text=result_txt)
     except Exception as e:
-        OpenNewWindow("Error", "200x100", "Error with input files")
+        OpenNewWindow("Error", "200x100", "Błędne pliki/dane")
         # DEBUG
         print(e)
 
@@ -283,8 +283,25 @@ def Page3():
     """
     descr = Label(window, text=txt, borderwidth=3, relief="groove")
     descr.grid(row=5, column=4,)
-
-    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=6, column=4)
+    instruction_txt = """
+                Instrukcja:
+            1 plik w formacie txt 
+                w kolumnie wpisać czas trwania połączenia
+                w danej minucie
+                np: 
+                    23
+                    51
+            2 plik w formacie txt
+                w pierwszej kolumnie wpisać 
+                daną minute,
+                w drugiej kolumnie wpisać średnią 
+                liczbe zgłoszeń w tej minucie.
+                Kolumny odzielić tabulatorem.
+                np: 
+                    1   510
+                    3   670
+            """
+    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt)).grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
     spacer2.grid(row=7, column=0, pady=100)
@@ -334,8 +351,18 @@ def Page4():
     """
     descr = Label(window, text=txt, borderwidth=3, relief="groove")
     descr.grid(row=5, column=4)
-
-    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", "Test text ...")).grid(row=6, column=4)
+    instruction_txt = """
+                    Instrukcja:
+                1 okienko liczba całkowita
+                    wpisać czas obserwacji rozmów
+                2 plik w formacie txt 
+                    w kolumnie wpisać czas trwania połączenia
+                    w danej minucie
+                    np: 
+                        23
+                        51
+                """
+    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt)).grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
     spacer2.grid(row=7, column=0, pady=80)
