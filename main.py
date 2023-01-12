@@ -11,8 +11,8 @@ matplotlib.use("TkAgg")
 
 window = Tk()
 window.title("Kalkulator średniej wartości czasu ruchu telekomunkacjynego")
-window.geometry("800x600")
-window.minsize(800, 600)
+window.geometry("950x650")
+window.minsize(950, 650)
 window.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
 
 l_file, h_file, avg_file, connection_file = None, None, None, None
@@ -196,7 +196,7 @@ def Page1():
         ta zajęta jest całą godzinę, 
         to natężenie ruchu wynosi 1 erlang.
     """
-    Button(window, text="Więcej...", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt))\
+    Button(window, text="Więcej...", command=lambda: OpenNewWindow("Formula", "350x350", instruction_txt))\
         .grid(row=5, column=5, pady=10)
  
 
@@ -259,7 +259,7 @@ def Page2():
                 1   510
                 3   670
         """
-    Button(window, text="Więcej ...", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt))\
+    Button(window, text="Więcej ...", command=lambda: OpenNewWindow("Formula", "350x350", instruction_txt))\
         .grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
@@ -327,7 +327,7 @@ def Page3():
                     1   510
                     3   670
             """
-    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt)).grid(row=6, column=4)
+    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "350x350", instruction_txt)).grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
     spacer2.grid(row=7, column=0, pady=100)
@@ -391,7 +391,7 @@ def Page4():
                         23
                         51
                 """
-    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt)).grid(row=6, column=4)
+    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "350x350", instruction_txt)).grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
     spacer2.grid(row=7, column=0, pady=80)
