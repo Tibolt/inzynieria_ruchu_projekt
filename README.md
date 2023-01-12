@@ -9,10 +9,10 @@ Program który oblicza średnią wartość natęzenia ruchu telekom i wyświetla
 - PyInstaller - tworzenie pliku exe
 
 ## TODO
-- [  ] funkcja która oblicza średnią wartość
-- [  ] stworzenie prostego gui
-- [  ] wyswietlenie wykresu w oknie
-- [  ] możliwość wpisania danych do programu
-- [  ] możliwość wczyatnia danych z dysku
-- [  ] dodanie instrukcji do programu
-- [  ] możliwość wybrania okresu czasu i wyświetlenie dla niego wyniku na wykresie
+- [x] funkcja która oblicza średnią wartość
+- [x] stworzenie prostego gui
+- [x] wyswietlenie wykresu w oknie
+- [x] możliwość wpisania danych do programu
+- [x] możliwość wczyatnia danych z dysku
+- [x] dodanie instrukcji do programu
+- [ ] możliwość wybrania okresu czasu i wyświetlenie dla niego wyniku na wykresie
