@@ -23,7 +23,7 @@ def select_file_time():
     filetypes = (("text files", "*.txt"), ("All files", "*.*"))
 
     filename = fd.askopenfilename(
-        title="Open a file", initialdir=os.pardir, filetypes=filetypes
+        title="Open a file", initialdir=os.curdir, filetypes=filetypes
     )
     # check if filename is not empty, user could decide to not pick file
     if filename:
@@ -36,7 +36,7 @@ def select_file_numbers():
     filetypes = (("text files", "*.txt"), ("All files", "*.*"))
 
     filename = fd.askopenfilename(
-        title="Open a file", initialdir=os.pardir, filetypes=filetypes
+        title="Open a file", initialdir=os.curdir, filetypes=filetypes
     )
     # check if filename is not empty, user could decide to not pick file
     if filename:
@@ -49,7 +49,7 @@ def select_file_average_time():
     filetypes = (("text files", "*.txt"), ("All files", "*.*"))
 
     filename = fd.askopenfilename(
-        title="Open a file", initialdir=os.pardir, filetypes=filetypes
+        title="Open a file", initialdir=os.curdir, filetypes=filetypes
     )
     # check if filename is not empty, user could decide to not pick file
     if filename:
