@@ -54,8 +54,8 @@ def calculate(l, h, num):
 
 
     plt.plot(hours, out)
-    plt.xlabel("kolejne godziny doby")
-    plt.ylabel("natężenie ruchu")
+    plt.xlabel("kolejne godziny doby [h]")
+    plt.ylabel("natężenie ruchu w danej minucie [Erl]")
     plt.xticks([0, 4, 8, 12, 16, 20, 24])
     plt.show()
     return result
@@ -72,8 +72,8 @@ def calculate_avg(avg, h, num):
     hours = np.asanyarray(h) / 60
 
     plt.plot(hours, out)
-    plt.xlabel("kolejne godziny doby")
-    plt.ylabel("natężenie ruchu")
+    plt.xlabel("kolejne godziny doby [h]")
+    plt.ylabel("natężenie ruchu w danej minucie [Erl]")
     # xticks = []
     # for i in range(hours[0], hours[-1:], 6):
     #     xticks.append(int(i))
@@ -105,13 +105,6 @@ def calculate_v2(con_time, h):
     for x in con_time:
         sum += x
 
-    observation_time = []
-    for i in range(1, len(con_time)+1):
-        observation_time.append(i)
-        
     out = sum / h
-
-    # TODO: Zapytac o wykres, co rysowac
-    # TODO: FIX x and y must have same first dimension, but have shapes (59,) and (40,) error 
 
     return out

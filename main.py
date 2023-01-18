@@ -10,9 +10,9 @@ import os
 matplotlib.use("TkAgg")
 
 window = Tk()
-window.title("Kalkulator średniej wartości czasu ruchu telekomunkacjynego")
-window.geometry("800x600")
-window.minsize(800, 600)
+window.title("Kalkulator średniej wartości natęzenia ruchu telekomunkacjynego")
+window.geometry("800x650")
+window.minsize(800, 650)
 window.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
 
 l_file, h_file, avg_file, connection_file = None, None, None, None
@@ -77,7 +77,7 @@ def show():
         h = formula.open_numbers(h_file, 0)
         num = formula.open_numbers(h_file, 1)
         result = round(formula.calculate(l, h, num), 3)
-        result_txt = "Wynik: " + str(result)
+        result_txt = "Wynik: " + str(result) + " [Erlang]"
         result_label.config(text=result_txt)
     except:
         OpenNewWindow("Error", "200x100", "Błędne pliki/dane")
@@ -92,7 +92,7 @@ def show_average():
         h = formula.open_numbers(h_file, 0)
         num = formula.open_numbers(h_file, 1)
         result = round(formula.calculate_avg(avg, h, num), 3)
-        result_txt = "Wynik: " + str(result)
+        result_txt = "Wynik: " + str(result) + " [Erlang]"
         result_label_p3.config(text=result_txt)
     except Exception as e:
         OpenNewWindow("Error", "200x100", "Błędne pliki/dane")
@@ -107,7 +107,7 @@ def show_version2():
         h = text_time.get(1.0, END).split()[0]
         con_time = formula.open_numbers(connection_file,0)
         result = round(formula.calculate_v2(con_time, int(h)), 3)
-        result_txt = "Wynik: " + str(result)
+        result_txt = "Wynik: " + str(result) + " [Erlang]"
         result_label_p4.config(text=result_txt)
     except Exception as e:
         OpenNewWindow("Error", "200x100", "Błędne pliki/dane")
@@ -163,41 +163,52 @@ def Page1():
     page.grid()
 
     label = Label(window, text="Menu główne")
-    label.grid(row=1, column=3, pady=20)
+    label.grid(row=0, column=4, pady=20)
+
+    spacer2 = Label(window, text="")
+    spacer2.grid(row=1, column=0, pady=30)
     # label.grid_columnconfigure(1, weight=1)
-    Button(window, text="Średnie natężenia ruchu", command=lambda: ChangePage(2)).grid(row=2, column=3, pady=10, ipadx=5, ipady=5)
-    Button(window, text="Średnie natęzenia ruchu 2", command=lambda: ChangePage(3)).grid(row=3, column=3, pady=10, ipadx=5, ipady=5)
-    Button(window, text="Wartość chwilowa intensywności wywołań", command=lambda: ChangePage(4)).grid(row=4, column=3, pady=10, ipadx=5, ipady=5)
+    Button(window, text="1. Przycisk", command=lambda: ChangePage(2)).grid(row=2, column=3, ipadx=5, ipady=5)
+    Label(window, text="Średnie natężenie ruchu").grid(row=3, column=3)
+
+    Button(window, text="2. Przycisk", command=lambda: ChangePage(3)).grid(row=4, column=3, ipadx=5, ipady=5)
+    Label(window, text="Średnie natężenie ruchu 2").grid(row=5, column=3)
+
+    Button(window, text="3. Przycisk", command=lambda: ChangePage(4)).grid(row=6, column=3, ipadx=5, ipady=5)
+    Label(window, text="Wartość chwilowa intensywności wywołań").grid(row=7, column=3)
 
     txt = """
-        Aplikacja do wyświetlenia i obliczenia
-        średniego czasu ruchu telekom.
-        Program potrafi obliczyć i narysować wykres
-        średniego czasu. 
-        W menu można wybrać wzór:
-        1 przycisk - średnia liczba zgłoszen i średni
-            czas trwania połączenia
-        2 przycisk - średnia liczba zgłoszen i czas
-            trwania połączenia w danej minucie
-        3 przycisk - wartośc chwilowa
+        W programie możemy obliczyć średnie natęzenie 
+        ruchu telekomunikacyjnego i wyświetlić wykres
+        natężenia w danej godzinie. 
+        
+        W menu można wybrać sposób użyty do wyznaczenia
+        średniego natężenia:
+        1 przycisk - średnia liczba zgłoszeń i średni
+            czas trwania połączenia.
+        2 przycisk - średnia liczba zgłoszeń i czas
+            trwania połączenia w danej minucie.
+        3 przycisk - suma czasów trwania połączeń
+            i okres obserwacji.
     
         
     """
     descr = Label(window, text=txt, borderwidth=3, relief="groove")
-    descr.grid(row=2, column=5, ipadx=10, rowspan=3)
+    descr.grid(row=2, column=5, ipadx=10, rowspan=6)
 
     instruction_txt = """
-        Średnia wartość ruchu telekomunikacyjnego
+        Średnia wartość natężenia ruchu telekomunikacyjnego
         to iloczyn średniego czasu trwania połączenia
-        i średniej ilości zgłoszeń. Jednostką jest erlang,
-        dla danego systemu telekomunikacyjnego 
+        i średniej ilości zgłoszeń. Jednostką jest erlang.
+        
+        Dla danego systemu telekomunikacyjnego 
         składającego się z 1 linii 
         i czasu obserwacji równego 1 godzinie, jeśli linia 
         ta zajęta jest całą godzinę, 
         to natężenie ruchu wynosi 1 erlang.
     """
-    Button(window, text="Więcej...", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt))\
-        .grid(row=5, column=5, pady=10)
+    Button(window, text="Więcej...", command=lambda: OpenNewWindow("Formula", "400x400", instruction_txt))\
+        .grid(row=8, column=5, pady=10)
  
 
 def Page2():
@@ -212,61 +223,75 @@ def Page2():
     spacer1.grid(row=2, column=0)
 
 
-    Button(window, text="Otwórz time.txt", command=lambda: select_file_time()).grid(row=3, column=1)
+    Button(window, text="Otwórz 1", command=lambda: select_file_time()).grid(row=3, column=1)
     time_file_label = Label(window, text="Pusty")
     time_file_label.grid(row=4, column=1)
 
     if l_file:
         time_file_label.config(text=os.path.basename(l_file))
 
-    Button(window, text="Otwórz  numbers.txt", command=select_file_numbers).grid(row=3, column=3)
+    Button(window, text="Otwórz  2", command=select_file_numbers).grid(row=3, column=3)
     numbers_file_label = Label(window, text="Pusty")
     numbers_file_label.grid(row=4, column=3)
 
     if h_file:
         numbers_file_label.config(text=os.path.basename(h_file))
 
-    Button(window, text="Pokaż wykres", command=show).grid(row=5, column=2)
+    Button(window, text="Pokaż wykres", command=show).grid(row=5, column=2, ipadx=10)
 
     result_label = Label(window, text="Wynik: ")
     result_label.grid(row=6, column=2)
 
     txt = """
-                Średnie natężenie ruchu telekomunikacyjnego
-                        Wzór: A = lambda * h
-        gdzie: 
-            lambda - średnia liczba zgłoszeń na jednostke czasu
-            h - średni czas trwania połączenia
+            Średnie natężenie ruchu telekomunikacyjnego
+                            Wzór: A = lambda * h
+    gdzie: 
+        lambda - średnia liczba zgłoszeń na jednostke czasu
+        h - średni czas trwania połączenia
 
-        Za pomocą przycisków wybrać odpowiednie pliki
+    Za pomocą przycisków "Otwórz" wybrać odpowiednie pliki
+        otwórz 1 - plik z czasami trwania połączeń
+        otwórz 2 - plik z licznościami wywołań jakie zarejstrowano
+        w danej minucie
+        
+    Kliknij "więcej" aby dowiedzieć się o zawartości plików.
     """
     descr = Label(window, text=txt, borderwidth=3, relief="groove")
     descr.grid(row=5, column=4, ipadx=10)
     instruction_txt = """
             Instrukcja:
         1 plik w formacie txt 
-            w kolumnie wpisać średni czas
-            np: 
-                23
-                51
+            w kolumnie wpisać czasy trwania połączeń[s].
+            
+            Przykładowy plik o nazwie "time.txt",
+            przykładowe dwa pierwsze wiersze pliku:
+            23
+            51
+            
         2 plik w formacie txt
             w pierwszej kolumnie wpisać 
-            daną minute,
+            poszczególne minuty doby,
             w drugiej kolumnie wpisać średnią 
-            liczbe zgłoszeń w tej minucie.
+            liczbe zgłoszeń w danej minucie.
             Kolumny odzielić tabulatorem.
-            np: 
-                1   510
-                3   670
+            
+            Przykładowy plik o nazwie "numbers.txt",
+            przykładowe dwa pierwsze wiersze pliku
+            1   510
+            3   670
+                
+        Pliki z danymi znajdują się w
+        folderze "przykłady".
+        Wynik średniego natężenia wyświetli się 
+        po zamknięciu okna z wykresem.
         """
-    Button(window, text="Więcej ...", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt))\
+    Button(window, text="Więcej ...", command=lambda: OpenNewWindow("Formula", "300x450", instruction_txt))\
         .grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
     spacer2.grid(row=7, column=0, pady=100)
 
-    Label(window, text="Wróć do menu głównego").grid(row=8, column=0)
-    Button(window, text="Menu", command=lambda: ChangePage(1)).grid(row=9, column=0)
+    Button(window, text="Cofnij", command=lambda: ChangePage(1)).grid(row=9, column=0)
 
 
 def Page3():
@@ -280,13 +305,13 @@ def Page3():
     spacer1 = Label(window, text="")
     spacer1.grid(row=2, column=0)
 
-    Button(window, text="Otwórz avg_time.txt", command=lambda: select_file_average_time()).grid(row=3, column=1)
+    Button(window, text="Otwórz 1", command=lambda: select_file_average_time()).grid(row=3, column=1)
     average_time_file_label = Label(window, text="Pusty")
     average_time_file_label.grid(row=4, column=1)
 
     if avg_file:
        average_time_file_label.config(text=os.path.basename(avg_file))
-    Button(window, text="Otwórz  numbers.txt", command=lambda: select_file_numbers()).grid(row=3, column=3)
+    Button(window, text="Otwórz 2", command=lambda: select_file_numbers()).grid(row=3, column=3)
     numbers_file_label = Label(window, text="Pusty")
     numbers_file_label.grid(row=4, column=3)
 
@@ -299,41 +324,58 @@ def Page3():
     result_label_p3.grid(row=6, column=2)
 
     txt = """
-                Średnie natężenie ruchu telekomunikacyjnego
-                        Wzór: A = lambda * h
-        gdzie: 
-            lambda - średnia liczba zgłoszeń na jednostke czasu 
-            h - czas trwania połączenia w danej minucie
+            Średnie natężenie ruchu telekomunikacyjnego
+                            Wzór: A = lambda * h
+    gdzie: 
+        lambda - średnia liczba zgłoszeń na jednostke czasu 
+        h - czas trwania połączenia w danej minucie
 
-        Za pomocą przycisków wybrać pliki
+    Za pomocą przycisków "Otwórz" wybrać odpowiednie pliki
+        otwórz 1 - plik z czasami trwania połączeń dla danego 
+        wywołania
+        otwórz 2 - plik z licznościami wywołan jakie zarejstrowano
+        w danej minucie
+        
+    Kliknij "więcej" aby dowiedzieć sie o zawartości plików.
     """
     descr = Label(window, text=txt, borderwidth=3, relief="groove")
-    descr.grid(row=5, column=4,)
+    descr.grid(row=5, column=4, ipadx=10)
     instruction_txt = """
-                Instrukcja:
-            1 plik w formacie txt 
-                w kolumnie wpisać czas trwania połączenia
-                w danej minucie
-                np: 
-                    23
-                    51
-            2 plik w formacie txt
-                w pierwszej kolumnie wpisać 
-                daną minute,
-                w drugiej kolumnie wpisać średnią 
-                liczbe zgłoszeń w tej minucie.
-                Kolumny odzielić tabulatorem.
-                np: 
-                    1   510
-                    3   670
-            """
-    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt)).grid(row=6, column=4)
+            Instrukcja:
+        1 plik w formacie txt 
+            w kolumnie wpisać czas trwania połączenia
+            dla danej liczby zgłoszeń.
+            Ilośc wierszy powinna być taka sama jak 
+            w drugim pliku.
+                
+            Przykładowy plik o nazwie "avg_time.txt"m
+            przykładowe dwa pierwsze wiersze pliku:
+            23
+            51
+                
+        2 plik w formacie txt
+            w pierwszej kolumnie wpisać 
+            poszczególną minute doby,
+            w drugiej kolumnie wpisać średnią 
+            liczbe zgłoszeń dla danej minuty.
+            Kolumny odzielić tabulatorem.
+            
+            Przykładowy plik o nazwie "numbers.txt",
+            przykładowe dwa pierwsze wiersze pliku:
+            1   510
+            3   670
+            
+        Pliki z danymi znajdują się w
+        folderze "przykłady".
+        Wynik średniego natężenia wyświetli się 
+        po zamknięciu okna z wykresem.
+        """
+    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x450", instruction_txt)).grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
     spacer2.grid(row=7, column=0, pady=100)
 
-    Label(window, text="Wróć do menu głównego").grid(row=8, column=0)
-    Button(window, text="Menu", command=lambda: ChangePage(1)).grid(row=9, column=0)
+    Button(window, text="Cofnij", command=lambda: ChangePage(1)).grid(row=9, column=0)
 
 def Page4():
     global connection_file_label, text_time, result_label_p4, connection_file
@@ -347,9 +389,9 @@ def Page4():
     spacer1.grid(row=2, column=0)
 
     # Button(window, text="Open avg_time.txt", command=lambda: select_file_average_time()).grid(row=4, column=1)
-    text_time = Text(window, height=1, width=3 )
-    text_time.grid(row=3, column=1)
-    text_time.insert(END, "1")
+    text_time = Text(window, height=1, width=7)
+    text_time.grid(row=3, column=1, ipadx=5)
+    text_time.insert(END, "60")
     
     desc = """
         Czas obserwacji
@@ -359,7 +401,7 @@ def Page4():
 
     Label(window, text=desc, width=10).grid(row=4, column=1, ipadx=30)
 
-    Button(window, text="Otwórz connection_time.txt", command=lambda: select_connection_time()).grid(row=3, column=3)
+    Button(window, text="Otwórz", command=lambda: select_connection_time()).grid(row=3, column=3)
     connection_file_label = Label(window, text="Pusty")
     connection_file_label.grid(row=4, column=3)
 
@@ -372,32 +414,39 @@ def Page4():
     result_label_p4.grid(row=6, column=2)
 
     txt = """
-            Wartość chwilowa intensywności wywołań
-        Wzor: suma wszystkich czasów/dlugość obserwacji
-
-        Za pomoca przycisków wybrać pliki
-        I wpisać liczbę calkowitą czasu obserwacji
+            Średnie natężenie ruchu telekomunikacyjnego (2 wzór)
+        Wzór: AT = suma czasów trwania połączeń/okres obserwacji
+    
+    W polu "czas obserwacji" wpisać okres obserwacji
+    w minutach jako liczbę całkowitą.
+    Za pomocą przycisku "Otwórz" wybrać odpowiednie pliki
+        Otwórz - plik z czasami trwania połączeń
+    
+    Kliknij "więcej" aby dowiedzieć sie o zawartości plików.
     """
     descr = Label(window, text=txt, borderwidth=3, relief="groove")
-    descr.grid(row=5, column=4)
+    descr.grid(row=5, column=4, ipadx=10)
     instruction_txt = """
-                    Instrukcja:
-                1 okienko liczba całkowita
-                    wpisać czas obserwacji rozmów
-                2 plik w formacie txt 
-                    w kolumnie wpisać czas trwania połączenia
-                    w danej minucie
-                    np: 
-                        23
-                        51
-                """
-    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x300", instruction_txt)).grid(row=6, column=4)
+            Instrukcja:
+        1 okienko liczba całkowita
+            wpisać czas obserwacji rozmów
+        2 plik w formacie txt 
+            Przykładowy plik o nazwie "connection_time.txt",
+            w kolumnie wpisać czas trwania k-tego połączenia
+            przykładowe dwa pierwsze wiersze pliku:
+            23
+            51
+            ...
+                    
+        Pliki z danymi znajdują się w
+        folderze "przykłady".
+        """
+    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "350x400", instruction_txt)).grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
-    spacer2.grid(row=7, column=0, pady=80)
+    spacer2.grid(row=7, column=0, pady=100)
 
-    Label(window, text="Wróć do menu głównego").grid(row=8, column=0)
-    Button(window, text="Menu", command=lambda: ChangePage(1)).grid(row=9, column=0)
+    Button(window, text="Confij", command=lambda: ChangePage(1)).grid(row=9, column=0)
 
 
 
