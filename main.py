@@ -11,8 +11,8 @@ matplotlib.use("TkAgg")
 
 window = Tk()
 window.title("Kalkulator średniej wartości natęzenia ruchu telekomunkacjynego")
-window.geometry("800x650")
-window.minsize(800, 650)
+window.geometry("950x750")
+window.minsize(950, 750)
 window.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
 
 l_file, h_file, avg_file, connection_file = None, None, None, None
@@ -169,13 +169,13 @@ def Page1():
     spacer2.grid(row=1, column=0, pady=30)
     # label.grid_columnconfigure(1, weight=1)
     Button(window, text="1. Przycisk", command=lambda: ChangePage(2)).grid(row=2, column=3, ipadx=5, ipady=5)
-    Label(window, text="Średnie natężenie ruchu").grid(row=3, column=3)
+    Label(window, text="Średnie natężenie 1 wzór").grid(row=3, column=3)
 
     Button(window, text="2. Przycisk", command=lambda: ChangePage(3)).grid(row=4, column=3, ipadx=5, ipady=5)
-    Label(window, text="Średnie natężenie ruchu 2").grid(row=5, column=3)
+    Label(window, text="Średnie natężenie 1 wzór").grid(row=5, column=3)
 
     Button(window, text="3. Przycisk", command=lambda: ChangePage(4)).grid(row=6, column=3, ipadx=5, ipady=5)
-    Label(window, text="Wartość chwilowa intensywności wywołań").grid(row=7, column=3)
+    Label(window, text="Średnie natężenie 2 wzór").grid(row=7, column=3)
 
     txt = """
         W programie możemy obliczyć średnie natęzenie 
@@ -188,6 +188,7 @@ def Page1():
             czas trwania połączenia.
         2 przycisk - średnia liczba zgłoszeń i czas
             trwania połączenia w danej minucie.
+            (różni się wykresem)
         3 przycisk - suma czasów trwania połączeń
             i okres obserwacji.
     
@@ -207,7 +208,7 @@ def Page1():
         ta zajęta jest całą godzinę, 
         to natężenie ruchu wynosi 1 erlang.
     """
-    Button(window, text="Więcej...", command=lambda: OpenNewWindow("Formula", "400x400", instruction_txt))\
+    Button(window, text="Więcej...", command=lambda: OpenNewWindow("Formula", "450x450", instruction_txt))\
         .grid(row=8, column=5, pady=10)
  
 
@@ -285,7 +286,7 @@ def Page2():
         Wynik średniego natężenia wyświetli się 
         po zamknięciu okna z wykresem.
         """
-    Button(window, text="Więcej ...", command=lambda: OpenNewWindow("Formula", "300x450", instruction_txt))\
+    Button(window, text="Więcej ...", command=lambda: OpenNewWindow("Formula", "450x500", instruction_txt))\
         .grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
@@ -328,7 +329,7 @@ def Page3():
                             Wzór: A = lambda * h
     gdzie: 
         lambda - średnia liczba zgłoszeń na jednostke czasu 
-        h - czas trwania połączenia w danej minucie
+        h - średni czas trwania połączenia
 
     Za pomocą przycisków "Otwórz" wybrać odpowiednie pliki
         otwórz 1 - plik z czasami trwania połączeń dla danego 
@@ -370,7 +371,7 @@ def Page3():
         Wynik średniego natężenia wyświetli się 
         po zamknięciu okna z wykresem.
         """
-    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "300x450", instruction_txt)).grid(row=6, column=4)
+    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "450x500", instruction_txt)).grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
     spacer2.grid(row=7, column=0, pady=100)
@@ -441,7 +442,7 @@ def Page4():
         Pliki z danymi znajdują się w
         folderze "przykłady".
         """
-    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "350x400", instruction_txt)).grid(row=6, column=4)
+    Button(window, text="Instrukcja", command=lambda: OpenNewWindow("Formula", "450x400", instruction_txt)).grid(row=6, column=4)
 
     spacer2 = Label(window, text="")
     spacer2.grid(row=7, column=0, pady=100)
